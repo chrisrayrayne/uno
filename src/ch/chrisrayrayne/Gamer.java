@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 
 /**
- * Created by christoph on 30.12.16.
+ * Created by chrisrayrayne on 30.12.16.
  */
 public class Gamer {
     public final int AIStrength;

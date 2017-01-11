@@ -2,15 +2,23 @@ package ch.chrisrayrayne;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
+/**
+ * Created by chrisrayrayne on 30.12.16.
+ */
 public class Game {
 
 	private final ArrayList<Card> allCards = generateStack();
-	private ArrayList<Gamer> gamers = new ArrayList<Gamer>();
-	private ArrayList<Card> pile = new ArrayList<Card>();
-	private ArrayList<Card> stack = new ArrayList<Card>();
+	public ArrayList<Gamer> gamers = new ArrayList<Gamer>();
+	public ArrayList<Card> pile = new ArrayList<Card>();
+	public ArrayList<Card> stack = new ArrayList<Card>();
+
+	public int i = -1;
+	public Gamer gamer;
+	public Card.COLOR topColor = null;
+	public Card.ACTION topActionValue = null;
+	public Integer topNumberValue = null;
+	public boolean clockwise = true;
 
 	private ArrayList<Card> generateStack() {
 		ArrayList<Card> cards = new ArrayList<Card>();
@@ -51,127 +59,7 @@ public class Game {
 		gamers.add(new Gamer(1, "AI 3"));
 	}
 
-	public static void main(String[] args) {
-		int i = -1;
-		Gamer gamer;
-		Card.COLOR topColor = null;
-		Card.ACTION topActionValue = null;
-		Integer topNumberValue = null;
-
-		Game g = new Game();
-		Card playedCard = g.start();
-		topColor = playedCard!=null ? playedCard.color : topColor;
-		topNumberValue = playedCard!=null ? playedCard.numberValue : topNumberValue;
-		topActionValue = playedCard!=null ? playedCard.actionValue : topActionValue;
-		boolean clockwise = true;
-		g.printGame(playedCard!=null, null, false, null);
-		do {
-			if(g.pile.size()<10){
-				Card topCard = getLastCard(g.stack);
-				g.stack.remove(topCard);
-				Collections.shuffle(g.stack);
-				g.pile.addAll(g.stack);
-				g.stack.clear();
-				g.stack.add(topCard);
-			}
-			i = continueGamer(i, g.gamers.size(), clockwise);
-			gamer = g.gamers.get(i);
-
-			if(gamer.AIStrength<0){
-				do {
-					int card = -1;
-					do {
-						gamer.printHand();
-						Scanner scanner = new Scanner(System.in);
-
-						try {
-							card = scanner.nextInt();
-						} catch (InputMismatchException e) {
-							card = -1;
-						}
-					}while(card<0 || card>gamer.cards.size());
-
-					if(card==0){
-						playedCard = null;
-						gamer.drawFromPile(g.pile);
-						break;
-					}else{
-						Card chosenCard = null;
-						if(card<=gamer.cards.size()){
-							chosenCard = gamer.cards.get(card-1);
-						}
-						playedCard = ((HumanGamer) gamer).play(chosenCard, topColor, topActionValue, topNumberValue);
-					}
-				}while(playedCard==null);
-			}else {
-				playedCard = gamer.play(topColor, topActionValue, topNumberValue, g.pile);
-			}
-			topColor = playedCard!=null ? playedCard.color : topColor;
-			topNumberValue = playedCard!=null ? playedCard.numberValue : topNumberValue;
-			topActionValue = playedCard!=null ? playedCard.actionValue : topActionValue;
-			if(playedCard!=null && Card.COLOR.BLACK.equals(topColor)){
-				if(gamer.AIStrength<0){
-					int color = -1;
-					do {
-						System.out.println("1: Blue");
-						System.out.println("2: Green");
-						System.out.println("3: Red");
-						System.out.println("4: Yellow");
-
-						Scanner scanner = new Scanner(System.in);
-
-						try {
-							color = scanner.nextInt();
-						} catch (InputMismatchException e) {
-							color = -1;
-						}
-					}while(color<0 || color>4);
-
-					switch(color){
-						case 1:
-							topColor = Card.COLOR.BLUE;
-							break;
-						case 2:
-							topColor = Card.COLOR.GREEN;
-							break;
-						case 3:
-							topColor = Card.COLOR.RED;
-							break;
-						case 4:
-							topColor = Card.COLOR.YELLOW;
-							break;
-					}
-				}else{
-					topColor = gamer.getColorWithMostCards();
-				}
-			}
-			if(playedCard!=null && Card.ACTION.DIRECTIONCHANGE.equals(topActionValue)){
-				clockwise = !clockwise;
-			}
-			if(playedCard!=null && Card.ACTION.SUSPEND.equals(topActionValue)){
-				i = continueGamer(i, g.gamers.size(), clockwise);
-			}
-			if(playedCard!=null && Card.ACTION.PLUS4.equals(topActionValue)){
-				i = continueGamer(i, g.gamers.size(), clockwise);
-				Gamer nextGamer = g.gamers.get(i);
-				ArrayList<Card> draw = new ArrayList<Card>(g.pile.subList(0,4));
-				g.pile.removeAll(draw);
-				nextGamer.addCards(draw);
-			}
-			if(playedCard!=null && Card.ACTION.PLUS2.equals(topActionValue)){
-				i = continueGamer(i, g.gamers.size(), clockwise);
-				Gamer nextGamer = g.gamers.get(i);
-				ArrayList<Card> draw = new ArrayList<Card>(g.pile.subList(0,2));
-				g.pile.removeAll(draw);
-				nextGamer.addCards(draw);
-			}
-			g.stack.add(playedCard);
-			g.printGame(playedCard!=null, topColor, false, gamer);
-		}while(gamer.cards.size()>0);
-		System.out.println(gamer.name + " has won");
-	}
-
-	private static int continueGamer(int i, int gamerSize, boolean clockwise) {
+	public static int continueGamer(int i, int gamerSize, boolean clockwise) {
 		if(clockwise) {
             i++;
             if (i >= gamerSize) {
@@ -229,8 +117,8 @@ public class Game {
 		}
 	}
 
-	private Card start() {
-		pile = new ArrayList<Card>(allCards);
+	public void init() {
+		this.pile = new ArrayList<Card>(allCards);
 		Collections.shuffle(pile);
 		for(int i=0; i<3; i++){
 			for(Gamer g: gamers) {
@@ -249,6 +137,36 @@ public class Game {
 			this.stack.add(this.pile.get(0));
 			this.pile.remove(0);
 		}
-		return getLastCard(this.stack);
+		Card playedCard = getLastCard(this.stack);
+		this.topColor = playedCard != null ? playedCard.color : topColor;
+		this.topNumberValue = playedCard != null ? playedCard.numberValue : topNumberValue;
+		this.topActionValue = playedCard != null ? playedCard.actionValue : topActionValue;
+		this.printGame(playedCard != null, null, false, null);
+	}
+
+	public void play(){
+		do {
+			if (this.pile.size() < 10) {
+				Card topCard = getLastCard(this.stack);
+				this.stack.remove(topCard);
+				Collections.shuffle(this.stack);
+				this.pile.addAll(this.stack);
+				this.stack.clear();
+				this.stack.add(topCard);
+			}
+			this.i = continueGamer(this.i, this.gamers.size(), this.clockwise);
+			this.gamer = this.gamers.get(this.i);
+
+			Card playedCard = this.gamer.play(this.topColor, this.topActionValue, this.topNumberValue, this.pile);
+
+			this.topColor = playedCard != null ? playedCard.color : this.topColor;
+			this.topNumberValue = playedCard != null ? playedCard.numberValue : this.topNumberValue;
+			this.topActionValue = playedCard != null ? playedCard.actionValue : this.topActionValue;
+
+			this.stack.add(playedCard);
+			playedCard.action(this, this.gamer);
+			this.printGame(playedCard != null, this.topColor, false, this.gamer);
+		} while (this.gamer.cards.size() > 0);
+		System.out.println(this.gamer.name + " has won");
 	}
 }

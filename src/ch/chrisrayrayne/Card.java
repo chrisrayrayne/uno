@@ -1,9 +1,12 @@
 package ch.chrisrayrayne;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 /**
- * Created by christoph on 30.12.16.
+ * Created by chrisrayrayne on 30.12.16.
  */
 public class Card {
 
@@ -20,7 +23,7 @@ public class Card {
     }
 
     public Card(int value, COLOR color){
-        this.numberValue = value;
+        this.numberValue = new Integer(value);
         this.color = color;
     }
 
@@ -51,7 +54,13 @@ public class Card {
                     return 1;
                 }
             }else{
-                return o1.color.toString().compareToIgnoreCase(o2.color.toString());
+                if(o1.color==COLOR.BLACK && o2.color!=COLOR.BLACK){
+                    return 1;
+                }else if(o1.color!=COLOR.BLACK && o2.color==COLOR.BLACK){
+                    return -1;
+                }else{
+                    return o1.color.toString().compareToIgnoreCase(o2.color.toString());
+                }
             }
             return o1.toString().compareToIgnoreCase(o2.toString());
         }
@@ -65,5 +74,64 @@ public class Card {
 
     public String toString(){
         return (this.color!=null ? this.color : "") + " " + (this.numberValue!=null ? this.numberValue : (this.actionValue!=null ? this.actionValue : ""));
+    }
+
+    public void action(Game game, Gamer gamer){
+        if(this!=null && Card.COLOR.BLACK.equals(game.topColor)){
+            if(gamer.AIStrength<0){
+                int color = -1;
+                do {
+                    System.out.println("1: Blue");
+                    System.out.println("2: Green");
+                    System.out.println("3: Red");
+                    System.out.println("4: Yellow");
+
+                    Scanner scanner = new Scanner(System.in);
+
+                    try {
+                        color = scanner.nextInt();
+                    } catch (InputMismatchException e) {
+                        color = -1;
+                    }
+                }while(color<0 || color>4);
+
+                switch(color){
+                    case 1:
+                        game.topColor = Card.COLOR.BLUE;
+                        break;
+                    case 2:
+                        game.topColor = Card.COLOR.GREEN;
+                        break;
+                    case 3:
+                        game.topColor = Card.COLOR.RED;
+                        break;
+                    case 4:
+                        game.topColor = Card.COLOR.YELLOW;
+                        break;
+                }
+            }else{
+                game.topColor = gamer.getColorWithMostCards();
+            }
+        }
+        if(this!=null && Card.ACTION.DIRECTIONCHANGE.equals(game.topActionValue)){
+            game.clockwise = !game.clockwise;
+        }
+        if(this!=null && Card.ACTION.SUSPEND.equals(game.topActionValue)){
+            game.i = game.continueGamer(game.i, game.gamers.size(), game.clockwise);
+        }
+        if(this!=null && Card.ACTION.PLUS4.equals(game.topActionValue)){
+            game.i = game.continueGamer(game.i, game.gamers.size(), game.clockwise);
+            Gamer nextGamer = game.gamers.get(game.i);
+            ArrayList<Card> draw = new ArrayList<Card>(game.pile.subList(0,4));
+            game.pile.removeAll(draw);
+            nextGamer.addCards(draw);
+        }
+        if(this!=null && Card.ACTION.PLUS2.equals(game.topActionValue)){
+            game.i = game.continueGamer(game.i, game.gamers.size(), game.clockwise);
+            Gamer nextGamer = game.gamers.get(game.i);
+            ArrayList<Card> draw = new ArrayList<Card>(game.pile.subList(0,2));
+            game.pile.removeAll(draw);
+            nextGamer.addCards(draw);
+        }
     }
 }
