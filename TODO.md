@@ -5,11 +5,11 @@
 	- Finish basic rules: You cannot play +2 onto a +4
 
 2. Expand AI strength
-	0: Check cards from top to down and play first card which is ok
-	1: Check cards first by same color then by number
-	2: Check cards by most cards available
+	- 0: Check cards from top to down and play first card which is ok
+	- 1: Check cards first by same color then by number
+	- 2: Check cards by most cards available
 
-x. Official rules
+- Official rules
 	- Cummulate
 	- Points
 	- Double
@@ -17,11 +17,11 @@ x. Official rules
 	- Partners
 	(- Jump-In)
 
-x. GUI (with libGDX?)
+- GUI (with libGDX?)
 
-x. Multiplayer (old-school, one client as server)
+- Multiplayer (old-school, one client as server)
 
-x. Other Rules
+- Other Rules
 	- Fast Double
 	- Jump-In Black
 	- Jump-In Actioncards
