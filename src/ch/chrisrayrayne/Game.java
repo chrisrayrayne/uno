@@ -21,6 +21,7 @@ public class Game {
 	public boolean clockwise = true;
 
 	private ArrayList<Card> generateStack() {
+
 		ArrayList<Card> cards = new ArrayList<Card>();
 		for(int i=1; i<20; i++){
 			cards.add(new Card(i/2, Card.COLOR.BLUE));
