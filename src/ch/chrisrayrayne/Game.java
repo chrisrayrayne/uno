@@ -53,10 +53,10 @@ public class Game {
 
 	public Game(){
 		//gamers.add(new HumanGamer("Player"));
-		gamers.add(new Gamer(1, "AI 1"));
-		gamers.add(new Gamer(1, "AI 1"));
-		gamers.add(new Gamer(1, "AI 2"));
-		gamers.add(new Gamer(1, "AI 3"));
+		gamers.add(new AI1Gamer("AI 1"));
+		gamers.add(new AI1Gamer("AI 1"));
+		gamers.add(new AI1Gamer("AI 2"));
+		gamers.add(new AI1Gamer("AI 3"));
 	}
 
 	public static int continueGamer(int i, int gamerSize, boolean clockwise) {
@@ -76,7 +76,7 @@ public class Game {
 
 	private void printGame(boolean printStack, Card.COLOR color, boolean printHand, Gamer g) {
 		System.out.flush();
-		if(printHand && g!=null && g.AIStrength<0) {
+		if(printHand && g!=null && g.isHumanPlayer()) {
 			g.printHand();
 		}else{
 			for(Gamer gamer: this.gamers) {

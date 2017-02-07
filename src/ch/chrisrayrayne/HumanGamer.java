@@ -9,8 +9,8 @@ import java.util.Scanner;
  */
 public class HumanGamer extends Gamer {
 
-    public HumanGamer(String name){
-        super(-1, name);
+    public HumanGamer(String nameValue){
+        super(nameValue);
     }
 
     public Card play(Card chosenCard, Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue){

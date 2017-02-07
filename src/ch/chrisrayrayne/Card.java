@@ -78,7 +78,7 @@ public class Card {
 
     public void action(Game game, Gamer gamer){
         if(this!=null && Card.COLOR.BLACK.equals(game.topColor)){
-            if(gamer.AIStrength<0){
+            if(gamer.isHumanPlayer()){
                 int color = -1;
                 do {
                     System.out.println("1: Blue");

@@ -7,16 +7,14 @@ import java.util.HashMap;
 /**
  * Created by chrisrayrayne on 30.12.16.
  */
-public class Gamer {
-    public final int AIStrength;
+public abstract class Gamer {
     public final String name;
 
-    public ArrayList<Card> cards = new ArrayList<Card>();
-
-    public Gamer(final int strength, final String name) {
-        this.AIStrength = strength;
-        this.name = name;
+    public Gamer(String nameValue){
+        this.name = nameValue;
     }
+
+    public ArrayList<Card> cards = new ArrayList<Card>();
 
     public void addCard(Card c) {
         cards.add(c);
@@ -34,29 +32,7 @@ public class Gamer {
         }
     }
 
-    public Card play(Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue, ArrayList<Card> pile) {
-        for(Card c: cards){
-            if(c.isSameColorOrValue(topColor, topActionValue, topNumberValue)) {
-                cards.remove(c);
-                return c;
-            }
-        }
-        for(Card c: cards){
-            if(c.color.equals(Card.COLOR.BLACK) && !Card.ACTION.PLUS4.equals(c.actionValue) && this.cards.size()>1) {
-                cards.remove(c);
-                return c;
-            }
-        }
-
-        for(Card c: cards){
-            if(c.color.equals(Card.COLOR.BLACK) && Card.ACTION.PLUS4.equals(c.actionValue) && this.cards.size()>1) {
-                cards.remove(c);
-                return c;
-            }
-        }
-        drawFromPile(pile);
-        return null;
-    }
+    public abstract Card play(Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue, ArrayList<Card> pile);
 
     public void drawFromPile(ArrayList<Card> pile) {
         if(pile.size()>0) {
@@ -101,5 +77,9 @@ public class Gamer {
             }
         }
         return maxColor;
+    }
+
+    public boolean isHumanPlayer(){
+        return this instanceof HumanGamer;
     }
 }
