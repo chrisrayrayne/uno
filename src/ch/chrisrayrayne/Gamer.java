@@ -48,7 +48,7 @@ public abstract class Gamer {
                 if(Card.ACTION.PLUS4.equals(chosenCard.actionValue)){
                     for(Card c: this.cards){
                         if(!c.equals(chosenCard)) {
-                            if (c.isSameColorOrValue(topColor, topActionValue, topNumberValue) || Card.COLOR.BLACK.equals((c.color))) {
+                            if (c.actionValue!=null && c.isSameColorOrValue(topColor, topActionValue, topNumberValue)) {
                                 return false;
                             }
                         }
