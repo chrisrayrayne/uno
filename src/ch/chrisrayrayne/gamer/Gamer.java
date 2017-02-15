@@ -1,4 +1,6 @@
-package ch.chrisrayrayne;
+package ch.chrisrayrayne.gamer;
+
+import ch.chrisrayrayne.card.Card;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,6 +35,8 @@ public abstract class Gamer {
     }
 
     public abstract Card play(Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue, ArrayList<Card> pile);
+
+    public abstract Card.COLOR chooseColor();
 
     public void drawFromPile(ArrayList<Card> pile) {
         if(pile.size()>0) {

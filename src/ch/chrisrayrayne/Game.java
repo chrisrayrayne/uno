@@ -1,10 +1,16 @@
 package ch.chrisrayrayne;
 
+import ch.chrisrayrayne.card.*;
+import ch.chrisrayrayne.gamer.AI1Gamer;
+import ch.chrisrayrayne.gamer.Gamer;
+import ch.chrisrayrayne.gamer.HumanGamer;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
 /**
  * Created by chrisrayrayne on 30.12.16.
+ * Main Game of Uno / Game-Leader/Referee
  */
 public class Game {
 
@@ -23,30 +29,30 @@ public class Game {
 	private ArrayList<Card> generateStack() {
 		ArrayList<Card> cards = new ArrayList<Card>();
 		for(int i=1; i<20; i++){
-			cards.add(new Card(i/2, Card.COLOR.BLUE));
-			cards.add(new Card(i/2, Card.COLOR.GREEN));
-			cards.add(new Card(i/2, Card.COLOR.RED));
-			cards.add(new Card(i/2, Card.COLOR.YELLOW));
+			cards.add(new NumberCard(i/2, Card.COLOR.BLUE));
+			cards.add(new NumberCard(i/2, Card.COLOR.GREEN));
+			cards.add(new NumberCard(i/2, Card.COLOR.RED));
+			cards.add(new NumberCard(i/2, Card.COLOR.YELLOW));
 		}
 		for(int i=0; i<2; i++){
-			cards.add(new Card(Card.ACTION.DIRECTIONCHANGE, Card.COLOR.BLUE));
-			cards.add(new Card(Card.ACTION.DIRECTIONCHANGE, Card.COLOR.GREEN));
-			cards.add(new Card(Card.ACTION.DIRECTIONCHANGE, Card.COLOR.RED));
-			cards.add(new Card(Card.ACTION.DIRECTIONCHANGE, Card.COLOR.YELLOW));
+			cards.add(new DirectionChangeCard(Card.COLOR.BLUE));
+			cards.add(new DirectionChangeCard(Card.COLOR.GREEN));
+			cards.add(new DirectionChangeCard(Card.COLOR.RED));
+			cards.add(new DirectionChangeCard(Card.COLOR.YELLOW));
 
-			cards.add(new Card(Card.ACTION.PLUS2, Card.COLOR.BLUE));
-			cards.add(new Card(Card.ACTION.PLUS2, Card.COLOR.GREEN));
-			cards.add(new Card(Card.ACTION.PLUS2, Card.COLOR.RED));
-			cards.add(new Card(Card.ACTION.PLUS2, Card.COLOR.YELLOW));
+			cards.add(new Plus2Card(Card.COLOR.BLUE));
+			cards.add(new Plus2Card(Card.COLOR.GREEN));
+			cards.add(new Plus2Card(Card.COLOR.RED));
+			cards.add(new Plus2Card(Card.COLOR.YELLOW));
 
-			cards.add(new Card(Card.ACTION.SUSPEND, Card.COLOR.BLUE));
-			cards.add(new Card(Card.ACTION.SUSPEND, Card.COLOR.GREEN));
-			cards.add(new Card(Card.ACTION.SUSPEND, Card.COLOR.RED));
-			cards.add(new Card(Card.ACTION.SUSPEND, Card.COLOR.YELLOW));
+			cards.add(new SuspendCard(Card.COLOR.BLUE));
+			cards.add(new SuspendCard(Card.COLOR.GREEN));
+			cards.add(new SuspendCard(Card.COLOR.RED));
+			cards.add(new SuspendCard(Card.COLOR.YELLOW));
 		}
 		for(int i=0; i<4; i++){
-			cards.add(new Card(Card.ACTION.COLORCHANGE, Card.COLOR.BLACK));
-			cards.add(new Card(Card.ACTION.PLUS4, Card.COLOR.BLACK));
+			cards.add(new ColorChangeCard());
+			cards.add(new Plus4Card());
 		}
 		return cards;
 	}
@@ -158,11 +164,12 @@ public class Game {
 			this.gamer = this.gamers.get(this.i);
 
 			Card playedCard = this.gamer.play(this.topColor, this.topActionValue, this.topNumberValue, this.pile);
-			if(playedCard!=null) {
-				this.topColor = playedCard != null ? playedCard.color : this.topColor;
-				this.topNumberValue = playedCard != null ? playedCard.numberValue : this.topNumberValue;
-				this.topActionValue = playedCard != null ? playedCard.actionValue : this.topActionValue;
 
+            this.topColor = playedCard != null ? playedCard.color : this.topColor;
+            this.topNumberValue = playedCard != null ? playedCard.numberValue : this.topNumberValue;
+            this.topActionValue = playedCard != null ? playedCard.actionValue : this.topActionValue;
+
+            if(playedCard!=null) {
 				this.stack.add(playedCard);
 				playedCard.action(this, this.gamer);
 			}

@@ -1,4 +1,6 @@
-package ch.chrisrayrayne;
+package ch.chrisrayrayne.gamer;
+
+import ch.chrisrayrayne.card.Card;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -57,5 +59,36 @@ public class HumanGamer extends Gamer {
             }
         }while(playedCard==null);
         return playedCard;
+    }
+
+    @Override
+    public Card.COLOR chooseColor() {
+        int color = -1;
+        do {
+            System.out.println("1: Blue");
+            System.out.println("2: Green");
+            System.out.println("3: Red");
+            System.out.println("4: Yellow");
+
+            Scanner scanner = new Scanner(System.in);
+
+            try {
+                color = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                color = -1;
+            }
+        } while (color < 0 || color > 4);
+
+        switch (color) {
+            case 1:
+                return Card.COLOR.BLUE;
+            case 2:
+                return Card.COLOR.GREEN;
+            case 3:
+                return Card.COLOR.RED;
+            case 4:
+                return Card.COLOR.YELLOW;
+        }
+        return chooseColor();
     }
 }

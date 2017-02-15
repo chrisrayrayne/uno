@@ -2,6 +2,7 @@ package ch.chrisrayrayne;
 
 /**
  * Created by chrisrayrayne on 30.12.16.
+ * Starter-Class
  */
 public class Uno {
 

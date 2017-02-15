@@ -1,4 +1,6 @@
-package ch.chrisrayrayne;
+package ch.chrisrayrayne.gamer;
+
+import ch.chrisrayrayne.card.Card;
 
 import java.util.ArrayList;
 
@@ -31,5 +33,10 @@ public class AI1Gamer extends Gamer{
         }
         drawFromPile(pile);
         return null;
+    }
+
+    @Override
+    public Card.COLOR chooseColor() {
+        return this.getColorWithMostCards();
     }
 }
