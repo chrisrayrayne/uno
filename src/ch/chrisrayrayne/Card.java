@@ -114,7 +114,11 @@ public class Card {
             }
         }
         if(this!=null && Card.ACTION.DIRECTIONCHANGE.equals(game.topActionValue)){
-            game.clockwise = !game.clockwise;
+            if(game.gamers.size()>2) {
+                game.clockwise = !game.clockwise;
+            }else{
+                game.i = game.continueGamer(game.i, game.gamers.size(), game.clockwise);
+            }
         }
         if(this!=null && Card.ACTION.SUSPEND.equals(game.topActionValue)){
             game.i = game.continueGamer(game.i, game.gamers.size(), game.clockwise);
