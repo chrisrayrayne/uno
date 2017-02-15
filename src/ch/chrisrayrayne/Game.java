@@ -52,7 +52,7 @@ public class Game {
 	}
 
 	public Game(){
-		//gamers.add(new HumanGamer("Player"));
+		gamers.add(new HumanGamer("Player"));
 		gamers.add(new AI1Gamer("AI 1"));
 		gamers.add(new AI1Gamer("AI 1"));
 		gamers.add(new AI1Gamer("AI 2"));
@@ -158,13 +158,14 @@ public class Game {
 			this.gamer = this.gamers.get(this.i);
 
 			Card playedCard = this.gamer.play(this.topColor, this.topActionValue, this.topNumberValue, this.pile);
+			if(playedCard!=null) {
+				this.topColor = playedCard != null ? playedCard.color : this.topColor;
+				this.topNumberValue = playedCard != null ? playedCard.numberValue : this.topNumberValue;
+				this.topActionValue = playedCard != null ? playedCard.actionValue : this.topActionValue;
 
-			this.topColor = playedCard != null ? playedCard.color : this.topColor;
-			this.topNumberValue = playedCard != null ? playedCard.numberValue : this.topNumberValue;
-			this.topActionValue = playedCard != null ? playedCard.actionValue : this.topActionValue;
-
-			this.stack.add(playedCard);
-			playedCard.action(this, this.gamer);
+				this.stack.add(playedCard);
+				playedCard.action(this, this.gamer);
+			}
 			this.printGame(playedCard != null, this.topColor, false, this.gamer);
 		} while (this.gamer.cards.size() > 0);
 		System.out.println(this.gamer.name + " has won");
