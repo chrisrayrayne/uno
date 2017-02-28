@@ -1,6 +1,9 @@
 package ch.chrisrayrayne.gamer;
 
 import ch.chrisrayrayne.card.Card;
+import ch.chrisrayrayne.card.ColorChangeCard;
+import ch.chrisrayrayne.card.Plus2Card;
+import ch.chrisrayrayne.card.Plus4Card;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,8 +50,13 @@ public abstract class Gamer {
 
     protected boolean canPlayCard(Card chosenCard, Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue) {
         if(chosenCard!=null && this.cards.contains(chosenCard)){
-
-            if(Card.COLOR.BLACK.equals(chosenCard.color)  && this.cards.size()>1){
+            if(topActionValue!=null && topActionValue.equals(Card.ACTION.PLUS4) && (chosenCard instanceof Plus2Card || chosenCard instanceof Plus4Card)){
+                return false;
+            }
+            if(topActionValue!=null && topActionValue.equals(Card.ACTION.COLORCHANGE) && chosenCard instanceof ColorChangeCard){
+                return false;
+            }
+            if(Card.COLOR.BLACK.equals(chosenCard.color) && this.cards.size()>1){
                 if(Card.ACTION.PLUS4.equals(chosenCard.actionValue)){
                     for(Card c: this.cards){
                         if(!c.equals(chosenCard)) {

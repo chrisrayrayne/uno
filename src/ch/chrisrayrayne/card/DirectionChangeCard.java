@@ -15,7 +15,7 @@ public class DirectionChangeCard extends Card {
 
     @Override
     public void action(Game game, Gamer gamer) {
-        if(game.gamers.size()>2) {
+        if(game.gamers.size()<=2) {
             game.clockwise = !game.clockwise;
         }else{
             game.i = game.continueGamer(game.i, game.gamers.size(), game.clockwise);
