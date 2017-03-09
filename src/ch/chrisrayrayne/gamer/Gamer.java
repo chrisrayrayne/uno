@@ -56,13 +56,14 @@ public abstract class Gamer {
             if(topActionValue!=null && topActionValue.equals(Card.ACTION.COLORCHANGE) && chosenCard instanceof ColorChangeCard){
                 return false;
             }
-            if(Card.COLOR.BLACK.equals(chosenCard.color) && this.cards.size()>1){
-                if(Card.ACTION.PLUS4.equals(chosenCard.actionValue)){
-                    for(Card c: this.cards){
-                        if(!c.equals(chosenCard)) {
-                            if (c.actionValue!=null && c.isSameColorOrValue(topColor, topActionValue, topNumberValue)) {
-                                return false;
-                            }
+            if(Card.COLOR.BLACK.equals(chosenCard.color) && this.cards.size()==1){
+                return false;
+            }
+            if(Card.COLOR.BLACK.equals(chosenCard.color) && Card.ACTION.PLUS4.equals(chosenCard.actionValue)){
+                for(Card c: this.cards){
+                    if(!c.equals(chosenCard)) {
+                        if (c.actionValue!=null && c.isSameColorOrValue(topColor, topActionValue, topNumberValue)) {
+                            return false;
                         }
                     }
                 }
