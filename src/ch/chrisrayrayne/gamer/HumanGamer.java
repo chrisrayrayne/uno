@@ -15,7 +15,7 @@ public class HumanGamer extends Gamer {
         super(nameValue);
     }
 
-    public Card play(Card chosenCard, Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue){
+    private Card play(Card chosenCard, Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue){
         if (canPlayCard(chosenCard, topColor, topActionValue, topNumberValue)){
             cards.remove(chosenCard);
             return chosenCard;
@@ -32,9 +32,9 @@ public class HumanGamer extends Gamer {
 
     @Override
     public Card play(Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue, ArrayList<Card> pile){
-        Card playedCard = null;
+        Card playedCard;
         do {
-            int card = -1;
+            int card;
             do {
                 this.printHand();
                 Scanner scanner = new Scanner(System.in);
@@ -48,7 +48,18 @@ public class HumanGamer extends Gamer {
 
             if(card==0){
                 playedCard = null;
-                this.drawFromPile(pile);
+                Card c = this.drawFromPile(pile);
+                if(canPlayCard(c, topColor, topActionValue, topNumberValue)){
+                    String doPlay;
+                    do {
+                        System.out.println(c.toString() + " => y to play, n to keep");
+                        Scanner scanner = new Scanner(System.in);
+                        doPlay = scanner.next();
+                    }while(doPlay!=null && !(doPlay.equals("y") || doPlay.equals("n")));
+                    if(doPlay!=null && doPlay.equals("y")){
+                        playedCard = play(c, topColor, topActionValue, topNumberValue);
+                    }
+                }
                 break;
             }else{
                 Card chosenCard = null;
@@ -63,7 +74,7 @@ public class HumanGamer extends Gamer {
 
     @Override
     public Card.COLOR chooseColor() {
-        int color = -1;
+        int color;
         do {
             System.out.println("1: Blue");
             System.out.println("2: Green");

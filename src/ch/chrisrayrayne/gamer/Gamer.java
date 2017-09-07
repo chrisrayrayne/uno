@@ -19,9 +19,9 @@ public abstract class Gamer {
         this.name = nameValue;
     }
 
-    public ArrayList<Card> cards = new ArrayList<Card>();
+    public ArrayList<Card> cards = new ArrayList<>();
 
-    public void addCard(Card c) {
+    private void addCard(Card c) {
         cards.add(c);
         Collections.sort(cards, Card.sort);
     }
@@ -41,11 +41,14 @@ public abstract class Gamer {
 
     public abstract Card.COLOR chooseColor();
 
-    public void drawFromPile(ArrayList<Card> pile) {
+    public Card drawFromPile(ArrayList<Card> pile) {
+        Card drawnCard = null;
         if(pile.size()>0) {
-            this.addCard(pile.get(0));
+            drawnCard = pile.get(0);
+            this.addCard(drawnCard);
             pile.remove(0);
         }
+        return drawnCard;
     }
 
     protected boolean canPlayCard(Card chosenCard, Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue) {
@@ -77,7 +80,7 @@ public abstract class Gamer {
     }
 
     public Card.COLOR getColorWithMostCards(){
-        HashMap<Card.COLOR, Integer> colorCount = new HashMap<Card.COLOR, Integer>();
+        HashMap<Card.COLOR, Integer> colorCount = new HashMap<>();
         for(Card c: this.cards){
             colorCount.put(c.color, colorCount.getOrDefault(c.color, 0)+1);
         }

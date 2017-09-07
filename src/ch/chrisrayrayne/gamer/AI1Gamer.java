@@ -31,7 +31,11 @@ public class AI1Gamer extends Gamer{
                 return c;
             }
         }
-        drawFromPile(pile);
+        Card c = drawFromPile(pile);
+        if(canPlayCard(c, topColor, topActionValue, topNumberValue)) {
+            cards.remove(c);
+            return c;
+        }
         return null;
     }
 
