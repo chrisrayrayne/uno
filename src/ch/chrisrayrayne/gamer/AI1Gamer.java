@@ -14,29 +14,39 @@ public class AI1Gamer extends Gamer{
     public Card play(Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue, ArrayList<Card> pile) {
         for(Card c: cards){
             if(c.isSameColorOrValue(topColor, topActionValue, topNumberValue) && canPlayCard(c, topColor, topActionValue, topNumberValue)) {
-                cards.remove(c);
-                return c;
+                return playCard(c);
             }
         }
         for(Card c: cards){
             if(c.color.equals(Card.COLOR.BLACK) && !Card.ACTION.PLUS4.equals(c.actionValue) && this.cards.size()>1 && canPlayCard(c, topColor, topActionValue, topNumberValue)) {
-                cards.remove(c);
-                return c;
+                return playCard(c);
             }
         }
 
         for(Card c: cards){
             if(c.color.equals(Card.COLOR.BLACK) && Card.ACTION.PLUS4.equals(c.actionValue) && this.cards.size()>1 && canPlayCard(c, topColor, topActionValue, topNumberValue)) {
-                cards.remove(c);
-                return c;
+                return playCard(c);
             }
         }
         Card c = drawFromPile(pile);
         if(canPlayCard(c, topColor, topActionValue, topNumberValue)) {
-            cards.remove(c);
-            return c;
+            playCard(c);
         }
         return null;
+    }
+
+    private Card playCard(Card c) {
+        cards.remove(c);
+        c.shoutedUno = shoutUno();
+        return c;
+    }
+
+    @Override
+    public boolean shoutUno(){
+        if(cards.size()==1 && Math.random()>0.05) {
+            return super.shoutUno();
+        }
+        return false;
     }
 
     @Override

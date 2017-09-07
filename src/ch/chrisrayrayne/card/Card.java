@@ -17,6 +17,8 @@ public abstract class Card {
     public Integer numberValue;
     public COLOR color;
 
+    public boolean shoutedUno;
+
     public int compare(Card card){
         return 1;
     }

@@ -75,6 +75,9 @@ public abstract class Gamer {
             if(chosenCard.isSameColorOrValue(topColor, topActionValue, topNumberValue)) {
                 return true;
             }
+            if(Card.COLOR.BLACK.equals(chosenCard.color)){
+                return true;
+            }
         }
         return false;
     }
@@ -93,6 +96,15 @@ public abstract class Gamer {
             }
         }
         return maxColor;
+    }
+
+    public boolean shoutUno(){
+        boolean shouted = false;
+        if(this.cards.size()==1) {
+            System.out.println(this.name + " shouted UNO!");
+            shouted = true;
+        }
+        return shouted;
     }
 
     public boolean isHumanPlayer(){

@@ -164,7 +164,6 @@ public class Game {
 			this.gamer = this.gamers.get(this.i);
 
 			Card playedCard = this.gamer.play(this.topColor, this.topActionValue, this.topNumberValue, this.pile);
-
             this.topColor = playedCard != null ? playedCard.color : this.topColor;
             this.topNumberValue = playedCard != null ? playedCard.numberValue : this.topNumberValue;
             this.topActionValue = playedCard != null ? playedCard.actionValue : this.topActionValue;
@@ -172,6 +171,13 @@ public class Game {
             if(playedCard!=null) {
 				this.stack.add(playedCard);
 				playedCard.action(this, this.gamer);
+				if(playedCard.shoutedUno){
+					playedCard.shoutedUno = false;
+				}else if(this.gamer.cards.size()==1){
+					ArrayList<Card> draw = new ArrayList<Card>(this.pile.subList(0,2));
+					this.pile.removeAll(draw);
+					this.gamer.addCards(draw);
+				}
 			}
 			this.printGame(playedCard != null, this.topColor, false, this.gamer);
 		} while (this.gamer.cards.size() > 0);
