@@ -46,7 +46,7 @@ public abstract class Gamer {
         if(pile.size()>0) {
             drawnCard = pile.get(0);
             this.addCard(drawnCard);
-            pile.remove(0);
+            pile.remove(drawnCard);
         }
         return drawnCard;
     }

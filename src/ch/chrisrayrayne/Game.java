@@ -3,7 +3,6 @@ package ch.chrisrayrayne;
 import ch.chrisrayrayne.card.*;
 import ch.chrisrayrayne.gamer.AI1Gamer;
 import ch.chrisrayrayne.gamer.Gamer;
-import ch.chrisrayrayne.gamer.HumanGamer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,7 +12,6 @@ import java.util.Collections;
  * Main Game of Uno / Game-Leader/Referee
  */
 public class Game {
-
 	private final ArrayList<Card> allCards = generateStack();
 	public ArrayList<Gamer> gamers = new ArrayList<Gamer>();
 	public ArrayList<Card> pile = new ArrayList<Card>();
@@ -58,7 +56,7 @@ public class Game {
 	}
 
 	public Game(){
-		gamers.add(new HumanGamer("Player"));
+		//gamers.add(new HumanGamer("Player"));
 		gamers.add(new AI1Gamer("AI 1"));
 		gamers.add(new AI1Gamer("AI 1"));
 		gamers.add(new AI1Gamer("AI 2"));
@@ -81,7 +79,7 @@ public class Game {
 	}
 
 	private void printGame(boolean printStack, Card.COLOR color, boolean printHand, Gamer g) {
-		System.out.flush();
+		//TODO Flush screen first
 		if(printHand && g!=null && g.isHumanPlayer()) {
 			g.printHand();
 		}else{
@@ -180,6 +178,13 @@ public class Game {
 				}
 			}
 			this.printGame(playedCard != null, this.topColor, false, this.gamer);
+			int sumCards = this.pile.size() + this.stack.size();
+            for(Gamer tempG: this.gamers){
+				sumCards += tempG.cards.size();
+			}
+			if(sumCards!=108){
+            	throw new IllegalStateException("sumCards is not correct " + sumCards);
+			}
 		} while (this.gamer.cards.size() > 0);
 		System.out.println(this.gamer.name + " has won");
 	}

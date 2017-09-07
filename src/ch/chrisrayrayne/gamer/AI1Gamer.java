@@ -30,7 +30,7 @@ public class AI1Gamer extends Gamer{
         }
         Card c = drawFromPile(pile);
         if(canPlayCard(c, topColor, topActionValue, topNumberValue)) {
-            playCard(c);
+            return playCard(c);
         }
         return null;
     }
@@ -43,7 +43,7 @@ public class AI1Gamer extends Gamer{
 
     @Override
     public boolean shoutUno(){
-        if(cards.size()==1 && Math.random()>0.05) {
+        if(this.cards.size()==1 && Math.random()>0.05) {
             return super.shoutUno();
         }
         return false;
