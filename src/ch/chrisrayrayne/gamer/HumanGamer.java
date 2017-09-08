@@ -34,7 +34,7 @@ public class HumanGamer extends Gamer {
     }
 
     @Override
-    public Card play(Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue, ArrayList<Card> pile){
+    public Card play(Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue, ArrayList<Card> pile, boolean drawToMatch){
         Card playedCard;
         do {
             int card = -1;
@@ -62,7 +62,7 @@ public class HumanGamer extends Gamer {
 
             if(card==0){
                 playedCard = null;
-                Card c = this.drawFromPile(pile);
+                Card c = this.drawFromPile(pile, drawToMatch, topColor, topActionValue, topNumberValue);
                 if(canPlayCard(c, topColor, topActionValue, topNumberValue)){
                     String entry;
                     do {

@@ -25,6 +25,30 @@ public class Game {
 	public Integer topNumberValue = null;
 	public boolean clockwise = true;
 
+	// Official Rules
+	private boolean jumpIn = false;
+	private boolean partners = false;
+	private boolean sevenO = false;
+	private boolean doubleing = false;
+	private boolean points = false;
+	private boolean cummulate = false;
+
+	// Enhanced Rules
+	private boolean fastDouble = false;
+	private boolean jumpInBlack = false;
+	private boolean jumpInActioncards = false;
+	private boolean drawToMatch = true;
+	private boolean retourRetour = false;
+	private boolean letMeBe = false;
+	private boolean sleep = false;
+	private boolean finishPlaying = false;
+	private boolean unoUno = false;
+	private boolean brunoKunoUno = false;
+	private boolean complementaryUno = false;
+	private boolean pullBackIn = false;
+	private boolean cummulateBlock = false;
+	private boolean playAfterDrawActioncards = false;
+
 	private ArrayList<Card> generateStack() {
 		ArrayList<Card> cards = new ArrayList<Card>();
 		for(int i=1; i<20; i++){
@@ -161,7 +185,7 @@ public class Game {
 			this.i = continueGamer(this.i, this.gamers.size(), this.clockwise);
 			this.gamer = this.gamers.get(this.i);
 
-			Card playedCard = this.gamer.play(this.topColor, this.topActionValue, this.topNumberValue, this.pile);
+			Card playedCard = this.gamer.play(this.topColor, this.topActionValue, this.topNumberValue, this.pile, this.drawToMatch);
             this.topColor = playedCard != null ? playedCard.color : this.topColor;
             this.topNumberValue = playedCard != null ? playedCard.numberValue : this.topNumberValue;
             this.topActionValue = playedCard != null ? playedCard.actionValue : this.topActionValue;

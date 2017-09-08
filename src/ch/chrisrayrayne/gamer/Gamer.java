@@ -37,17 +37,19 @@ public abstract class Gamer {
         }
     }
 
-    public abstract Card play(Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue, ArrayList<Card> pile);
+    public abstract Card play(Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue, ArrayList<Card> pile, boolean drawToMatch);
 
     public abstract Card.COLOR chooseColor();
 
-    public Card drawFromPile(ArrayList<Card> pile) {
+    public Card drawFromPile(ArrayList<Card> pile, boolean drawToMatch, Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue) {
         Card drawnCard = null;
-        if(pile.size()>0) {
-            drawnCard = pile.get(0);
-            this.addCard(drawnCard);
-            pile.remove(drawnCard);
-        }
+        do {
+            if (pile.size() > 0) {
+                drawnCard = pile.get(0);
+                this.addCard(drawnCard);
+                pile.remove(drawnCard);
+            }
+        }while(!(!drawToMatch || (drawToMatch && canPlayCard(drawnCard, topColor, topActionValue, topNumberValue))));
         return drawnCard;
     }
 

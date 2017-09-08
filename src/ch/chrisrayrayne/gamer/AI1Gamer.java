@@ -11,7 +11,7 @@ public class AI1Gamer extends Gamer{
     }
 
     @Override
-    public Card play(Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue, ArrayList<Card> pile) {
+    public Card play(Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue, ArrayList<Card> pile, boolean drawToMatch) {
         for(Card c: cards){
             if(c.isSameColorOrValue(topColor, topActionValue, topNumberValue) && canPlayCard(c, topColor, topActionValue, topNumberValue)) {
                 return playCard(c);
@@ -28,7 +28,7 @@ public class AI1Gamer extends Gamer{
                 return playCard(c);
             }
         }
-        Card c = drawFromPile(pile);
+        Card c = drawFromPile(pile, drawToMatch, topColor, topActionValue, topNumberValue);
         if(canPlayCard(c, topColor, topActionValue, topNumberValue)) {
             return playCard(c);
         }

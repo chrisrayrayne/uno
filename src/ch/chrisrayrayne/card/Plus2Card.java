@@ -19,7 +19,12 @@ public class Plus2Card extends Card {
     public void action(Game game, Gamer gamer) {
         game.i = game.continueGamer(game.i, game.gamers.size(), game.clockwise);
         Gamer nextGamer = game.gamers.get(game.i);
-        ArrayList<Card> draw = new ArrayList<Card>(game.pile.subList(0, Math.max(0, game.pile.size()-1)));
+        ArrayList<Card> draw;
+        if(game.pile.size()<2){
+            draw = new ArrayList<Card>(game.pile);
+        }else {
+            draw = new ArrayList<Card>(game.pile.subList(0, 2));
+        }
         game.pile.removeAll(draw);
         nextGamer.addCards(draw);
     }
