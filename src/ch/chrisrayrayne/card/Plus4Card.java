@@ -21,7 +21,7 @@ public class Plus4Card extends Card{
 
         game.i = game.continueGamer(game.i, game.gamers.size(), game.clockwise);
         Gamer nextGamer = game.gamers.get(game.i);
-        ArrayList<Card> draw = new ArrayList<Card>(game.pile.subList(0,4));
+        ArrayList<Card> draw = new ArrayList<Card>(game.pile.subList(0, Math.max(0, game.pile.size()-1)));
         game.pile.removeAll(draw);
         nextGamer.addCards(draw);
     }

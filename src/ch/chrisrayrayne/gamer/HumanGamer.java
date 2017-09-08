@@ -50,7 +50,7 @@ public class HumanGamer extends Gamer {
                             if("u".equals(entry.substring(0, 1))){
                                 shoutUno = true;
                             }
-                            card = Integer.parseInt(entry.substring(1, 2));
+                            card = Integer.parseInt(entry.substring(1));
                         }else{
                             card = Integer.parseInt(entry);
                         }
@@ -79,7 +79,7 @@ public class HumanGamer extends Gamer {
                             if("u".equals(entry.substring(0, 1))){
                                 shoutUno = true;
                             }
-                            doPlay = entry.substring(1, 2);
+                            doPlay = entry.substring(1);
                         }
                         if("y".equals(doPlay)) {
                             playedCard = playCard(topColor, topActionValue, topNumberValue, shoutUno, c);

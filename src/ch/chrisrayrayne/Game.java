@@ -3,6 +3,7 @@ package ch.chrisrayrayne;
 import ch.chrisrayrayne.card.*;
 import ch.chrisrayrayne.gamer.AI1Gamer;
 import ch.chrisrayrayne.gamer.Gamer;
+import ch.chrisrayrayne.gamer.HumanGamer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,11 +57,10 @@ public class Game {
 	}
 
 	public Game(){
-		//gamers.add(new HumanGamer("Player"));
-		gamers.add(new AI1Gamer("AI 1"));
 		gamers.add(new AI1Gamer("AI 1"));
 		gamers.add(new AI1Gamer("AI 2"));
 		gamers.add(new AI1Gamer("AI 3"));
+		gamers.add(new HumanGamer("Player"));
 	}
 
 	public static int continueGamer(int i, int gamerSize, boolean clockwise) {
@@ -172,7 +172,7 @@ public class Game {
 				if(playedCard.shoutedUno){
 					playedCard.shoutedUno = false;
 				}else if(this.gamer.cards.size()==1){
-					ArrayList<Card> draw = new ArrayList<Card>(this.pile.subList(0,2));
+					ArrayList<Card> draw = new ArrayList<Card>(this.pile.subList(0, Math.max(0, this.pile.size()-1)));
 					this.pile.removeAll(draw);
 					this.gamer.addCards(draw);
 				}
