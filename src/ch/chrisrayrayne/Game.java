@@ -1,9 +1,9 @@
 package ch.chrisrayrayne;
 
 import ch.chrisrayrayne.card.*;
+import ch.chrisrayrayne.gamer.AI0Gamer;
 import ch.chrisrayrayne.gamer.AI1Gamer;
 import ch.chrisrayrayne.gamer.Gamer;
-import ch.chrisrayrayne.gamer.HumanGamer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -81,10 +81,11 @@ public class Game {
 	}
 
 	public Game(){
-		gamers.add(new AI1Gamer("AI 1"));
-		gamers.add(new AI1Gamer("AI 2"));
-		gamers.add(new AI1Gamer("AI 3"));
-		gamers.add(new HumanGamer("Player"));
+		gamers.add(new AI1Gamer("AI 11"));
+		gamers.add(new AI1Gamer("AI 12"));
+		gamers.add(new AI0Gamer("AI 01"));
+		gamers.add(new AI0Gamer("AI 02"));
+		//gamers.add(new HumanGamer("Player"));
 	}
 
 	public static int continueGamer(int i, int gamerSize, boolean clockwise) {

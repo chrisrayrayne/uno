@@ -59,8 +59,15 @@ public abstract class Card {
     };
 
     public boolean isSameColorOrValue(Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue) {
-        return (this.color.equals(topColor)) ||
-                (topActionValue!=null && topActionValue.equals(this.actionValue)) ||
+        return this.isSameColor(topColor) || this.isSameValue(topColor, topActionValue, topNumberValue);
+    }
+
+    public boolean isSameColor(Card.COLOR topColor) {
+        return this.color.equals(topColor);
+    }
+
+    public boolean isSameValue(Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue) {
+        return (topActionValue!=null && topActionValue.equals(this.actionValue)) ||
                 (topNumberValue!=null && topNumberValue.equals(this.numberValue));
     }
 
