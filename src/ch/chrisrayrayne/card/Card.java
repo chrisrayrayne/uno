@@ -5,22 +5,21 @@ import ch.chrisrayrayne.gamer.Gamer;
 
 import java.util.Comparator;
 
-/**
- * Created by chrisrayrayne on 30.12.16.
- */
 public abstract class Card {
 
-    public static enum COLOR{BLACK, BLUE, GREEN, RED, YELLOW}
-    public static enum ACTION{COLORCHANGE, PLUS2, PLUS4, DIRECTIONCHANGE, SUSPEND}
+    public enum COLOR{BLACK, BLUE, GREEN, RED, YELLOW}
+    public enum ACTION{COLORCHANGE, PLUS2, PLUS4, DIRECTIONCHANGE, SUSPEND}
 
-    public ACTION actionValue;
-    public Integer numberValue;
-    public COLOR color;
+    private ACTION actionValue;
+    private Integer numberValue;
+    private COLOR color;
+    private int points;
 
-    public boolean shoutedUno;
-
-    public int compare(Card card){
-        return 1;
+    public Card(COLOR colorValue, ACTION actionValue, Integer numberValue, int pointsValue){
+        this.color = colorValue;
+        this.actionValue = actionValue;
+        this.numberValue = numberValue;
+        this.points = pointsValue;
     }
 
     public static Comparator<Card> sort = new Comparator<Card>() {
@@ -32,7 +31,7 @@ public abstract class Card {
             if(o1!=null && o2==null){
                 return 1;
             }
-            if(o1==null && o2!=null){
+            if(o1==null){
                 return -1;
             }
             if(o1.color.equals(o2.color)){
@@ -59,14 +58,14 @@ public abstract class Card {
     };
 
     public boolean isSameColorOrValue(Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue) {
-        return this.isSameColor(topColor) || this.isSameValue(topColor, topActionValue, topNumberValue);
+        return this.isSameColor(topColor) || this.isSameValue(topActionValue, topNumberValue);
     }
 
     public boolean isSameColor(Card.COLOR topColor) {
         return this.color.equals(topColor);
     }
 
-    public boolean isSameValue(Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue) {
+    public boolean isSameValue(Card.ACTION topActionValue, Integer topNumberValue) {
         return (topActionValue!=null && topActionValue.equals(this.actionValue)) ||
                 (topNumberValue!=null && topNumberValue.equals(this.numberValue));
     }
@@ -76,4 +75,21 @@ public abstract class Card {
     }
 
     public abstract void action(Game game, Gamer gamer);
+
+    @SuppressWarnings("unused")
+    public int getPoints() {
+        return this.points;
+    }
+
+    public COLOR getColor() {
+        return this.color;
+    }
+
+    public ACTION getAction() {
+        return this.actionValue;
+    }
+
+    public Integer getNumber() {
+        return this.numberValue;
+    }
 }

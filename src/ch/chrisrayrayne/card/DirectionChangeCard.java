@@ -3,22 +3,18 @@ package ch.chrisrayrayne.card;
 import ch.chrisrayrayne.Game;
 import ch.chrisrayrayne.gamer.Gamer;
 
-/**
- * Created by chrisrayrayne on 15.02.17.
- */
 public class DirectionChangeCard extends Card {
 
     public DirectionChangeCard(COLOR color){
-        this.actionValue = ACTION.DIRECTIONCHANGE;
-        this.color = color;
+        super(color, ACTION.DIRECTIONCHANGE, null, 20);
     }
 
     @Override
     public void action(Game game, Gamer gamer) {
-        if(game.gamers.size()<=2) {
-            game.clockwise = !game.clockwise;
+        if(game.gamers.size() > 2) {
+            game.reverseGameDirection();
         }else{
-            game.i = game.continueGamer(game.i, game.gamers.size(), game.clockwise);
+            game.continueGamer();
         }
     }
 }

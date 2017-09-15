@@ -2,27 +2,23 @@ package ch.chrisrayrayne.gamer;
 
 import ch.chrisrayrayne.card.Card;
 
-/**
- * Created by chrisrayrayne on 13.09.17.
- */
 public abstract class AIGamer extends Gamer {
 
-    public AIGamer(String nameValue) {
+    protected int thinkingPause = 500;
+
+    AIGamer(String nameValue) {
         super(nameValue);
     }
 
-    protected Card playCard(Card c) {
+    Card playCard(Card c) {
         cards.remove(c);
-        c.shoutedUno = shoutUno();
+        this.shoutedUno = shoutUno();
         return c;
     }
 
     @Override
-    public boolean shoutUno(){
-        if(this.cards.size()==1 && Math.random()>0.05) {
-            return super.shoutUno();
-        }
-        return false;
+    public boolean shoutUno() {
+        return this.cards.size() == 1 && Math.random() > 0.05 && super.shoutUno();
     }
 
     @Override

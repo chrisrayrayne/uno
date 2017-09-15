@@ -1,19 +1,16 @@
 package ch.chrisrayrayne.gamer;
 
+import ch.chrisrayrayne.Game;
 import ch.chrisrayrayne.card.Card;
-import ch.chrisrayrayne.card.ColorChangeCard;
-import ch.chrisrayrayne.card.Plus2Card;
-import ch.chrisrayrayne.card.Plus4Card;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-/**
- * Created by chrisrayrayne on 30.12.16.
- */
 public abstract class Gamer {
     public final String name;
+
+    public boolean shoutedUno;
 
     public Gamer(String nameValue){
         this.name = nameValue;
@@ -37,57 +34,31 @@ public abstract class Gamer {
         }
     }
 
-    public abstract Card play(Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue, ArrayList<Card> pile, boolean drawToMatch);
+    public abstract Card play(Game game);
 
     public abstract Card.COLOR chooseColor();
 
-    public Card drawFromPile(ArrayList<Card> pile, boolean drawToMatch, Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue) {
+    Card drawFromPile(Game game) {
         Card drawnCard = null;
+        int cardsDrawn = 0;
         do {
-            if (pile.size() > 0) {
-                drawnCard = pile.get(0);
+            ArrayList<Card> drawnCards = game.drawFromPile(1);
+            if(drawnCards!=null&& drawnCards.size() == 1){
+                drawnCard = drawnCards.get(0);
+                cardsDrawn++;
                 this.addCard(drawnCard);
-                pile.remove(drawnCard);
             }
-        }while(!(!drawToMatch || (drawToMatch && canPlayCard(drawnCard, topColor, topActionValue, topNumberValue))));
+            if(!game.drawToMatch){
+                break;
+            }
+        }while(drawnCard==null || game.matchesCard(drawnCard));
         return drawnCard;
     }
 
-    protected boolean canPlayCard(Card chosenCard, Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue) {
-        if(chosenCard!=null && this.cards.contains(chosenCard)){
-            if(topActionValue!=null && topActionValue.equals(Card.ACTION.PLUS4) && (chosenCard instanceof Plus2Card || chosenCard instanceof Plus4Card)){
-                return false;
-            }
-            if(topActionValue!=null && topActionValue.equals(Card.ACTION.COLORCHANGE) && chosenCard instanceof ColorChangeCard){
-                return false;
-            }
-            if(Card.COLOR.BLACK.equals(chosenCard.color) && this.cards.size()==1){
-                return false;
-            }
-            if(Card.COLOR.BLACK.equals(chosenCard.color) && Card.ACTION.PLUS4.equals(chosenCard.actionValue)){
-                for(Card c: this.cards){
-                    if(!c.equals(chosenCard)) {
-                        if (c.actionValue!=null && c.isSameColorOrValue(topColor, topActionValue, topNumberValue)) {
-                            return false;
-                        }
-                    }
-                }
-                return true;
-            }
-            if(chosenCard.isSameColorOrValue(topColor, topActionValue, topNumberValue)) {
-                return true;
-            }
-            if(Card.COLOR.BLACK.equals(chosenCard.color)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public Card.COLOR getColorWithMostCards(){
+    Card.COLOR getColorWithMostCards(){
         HashMap<Card.COLOR, Integer> colorCount = new HashMap<>();
         for(Card c: this.cards){
-            colorCount.put(c.color, colorCount.getOrDefault(c.color, 0)+1);
+            colorCount.put(c.getColor(), colorCount.getOrDefault(c.getColor(), 0)+1);
         }
         Card.COLOR maxColor = null;
         int maxCount = -1;

@@ -1,22 +1,19 @@
 package ch.chrisrayrayne.gamer;
 
+import ch.chrisrayrayne.Game;
 import ch.chrisrayrayne.card.Card;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-/**
- * Created by chrisrayrayne on 30.12.16.
- */
 public class HumanGamer extends Gamer {
 
     public HumanGamer(String nameValue){
         super(nameValue);
     }
 
-    private Card play(Card chosenCard, Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue){
-        if (canPlayCard(chosenCard, topColor, topActionValue, topNumberValue)){
+    private Card play(Game game, Card chosenCard){
+        if (game.canPlayCard(chosenCard, this.cards)){
             cards.remove(chosenCard);
             return chosenCard;
         }
@@ -34,7 +31,7 @@ public class HumanGamer extends Gamer {
     }
 
     @Override
-    public Card play(Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue, ArrayList<Card> pile, boolean drawToMatch){
+    public Card play(Game game){
         Card playedCard;
         do {
             int card = -1;
@@ -62,8 +59,8 @@ public class HumanGamer extends Gamer {
 
             if(card==0){
                 playedCard = null;
-                Card c = this.drawFromPile(pile, drawToMatch, topColor, topActionValue, topNumberValue);
-                if(canPlayCard(c, topColor, topActionValue, topNumberValue)){
+                Card c = this.drawFromPile(game);
+                if(game.canPlayCard(c, this.cards)){
                     String entry;
                     do {
                         if(this.cards.size()==2){
@@ -82,7 +79,7 @@ public class HumanGamer extends Gamer {
                             doPlay = entry.substring(1);
                         }
                         if("y".equals(doPlay)) {
-                            playedCard = playCard(topColor, topActionValue, topNumberValue, shoutUno, c);
+                            playedCard = playCard(game, c, shoutUno);
                         }
                     }
                 }
@@ -92,18 +89,16 @@ public class HumanGamer extends Gamer {
                 if(card<=this.cards.size()){
                     chosenCard = this.cards.get(card-1);
                 }
-                playedCard = playCard(topColor, topActionValue, topNumberValue, shoutUno, chosenCard);
+                playedCard = playCard(game, chosenCard, shoutUno);
             }
         }while(playedCard==null);
         return playedCard;
     }
 
-    private Card playCard(Card.COLOR topColor, Card.ACTION topActionValue, Integer topNumberValue, boolean shoutUno, Card c) {
+    private Card playCard(Game game, Card c, boolean shoutUno) {
         Card playedCard;
-        playedCard = play(c, topColor, topActionValue, topNumberValue);
-        if(playedCard!=null && shoutUno){
-            playedCard.shoutedUno = shoutUno();
-        }
+        playedCard = play(game, c);
+        this.shoutedUno = playedCard != null && shoutUno && shoutUno();
         return playedCard;
     }
 
