@@ -4,6 +4,7 @@ import ch.chrisrayrayne.card.*;
 import ch.chrisrayrayne.gamer.AI0Gamer;
 import ch.chrisrayrayne.gamer.AI1Gamer;
 import ch.chrisrayrayne.gamer.Gamer;
+import ch.chrisrayrayne.gamer.HumanGamer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -104,7 +105,7 @@ public class Game {
 		gamers.add(new AI1Gamer("AI 12"));
 		gamers.add(new AI0Gamer("AI 01"));
 		gamers.add(new AI0Gamer("AI 02"));
-		//gamers.add(new HumanGamer("Player"));
+		gamers.add(new HumanGamer("Player"));
 	}
 
 	private int continueGamer(int i) {
@@ -295,7 +296,7 @@ public class Game {
 			if (Card.COLOR.BLACK.equals(card.getColor()) && Card.ACTION.PLUS4.equals(card.getAction())) {
 				for (Card c : cards) {
 					if (!c.equals(card)) {
-						if (c.getAction() != null && c.isSameColorOrValue(topColor, topActionValue, topNumberValue)) {
+						if (c instanceof ColorChangeCard || c.isSameColorOrValue(topColor, topActionValue, topNumberValue)) {
 							return false;
 						}
 					}
